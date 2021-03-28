@@ -20,12 +20,14 @@ namespace App05MonoGame
     /// </authors>
     public class App05Game : Game
     {
-        // Constants
+        #region Constants
 
         public const int HD_Height = 720;
         public const int HD_Width = 1280;
 
-        // Variables
+        #endregion
+
+        #region Attribute
 
         private readonly GraphicsDeviceManager graphicsManager;
         private GraphicsDevice graphicsDevice;
@@ -45,8 +47,13 @@ namespace App05MonoGame
         private AnimatedPlayer playerSprite;
         private AnimatedSprite enemySprite;
 
+        private Button restartButton;
+
         private int score;
         private int health;
+
+        #endregion
+
         public App05Game()
         {
             graphicsManager = new GraphicsDeviceManager(this);
@@ -96,6 +103,16 @@ namespace App05MonoGame
             arialFont = Content.Load<SpriteFont>("fonts/arial");
             calibriFont = Content.Load<SpriteFont>("fonts/calibri");
 
+            restartButton = new Button(arialFont,
+                Content.Load<Texture2D>("Controls/button-icon-png-200"))
+            {
+                Position = new Vector2(1100, 600),
+                Text = "Quit",
+                Scale = 0.6f
+            };
+
+            restartButton.click += RestartButton_click;
+
             // suitable for asteroids type game
 
             SetupSpaceShip();
@@ -108,6 +125,13 @@ namespace App05MonoGame
 
             Texture2D coinSheet = Content.Load<Texture2D>("Actors/coin_copper");
             coinsController.CreateCoin(graphicsDevice, coinSheet);
+        }
+
+        private void RestartButton_click(object sender, System.EventArgs e)
+        {
+            //TODO: do something when the button is clicked!
+            
+            Exit();
         }
 
         /// <summary>
@@ -157,10 +181,10 @@ namespace App05MonoGame
         {
             Texture2D sheet4x3 = Content.Load<Texture2D>("Actors/rsc-sprite-sheet1");
 
-            AnimationController manager = new AnimationController(graphicsDevice, sheet4x3, 4, 3);
+            AnimationController contoller = new AnimationController(graphicsDevice, sheet4x3, 4, 3);
 
             string[] keys = new string[] { "Down", "Left", "Right", "Up" };
-            manager.CreateAnimationGroup(keys);
+            contoller.CreateAnimationGroup(keys);
 
             playerSprite = new AnimatedPlayer()
             {
@@ -175,7 +199,7 @@ namespace App05MonoGame
                 RotationSpeed = 0f
             };
 
-            manager.AppendAnimationsTo(playerSprite);
+            contoller.AppendAnimationsTo(playerSprite);
         }
 
         /// <summary>
@@ -221,6 +245,8 @@ namespace App05MonoGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || 
                 Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
 
+            restartButton.Update(gameTime);
+
             // Update Asteroids
 
             shipSprite.Update(gameTime);
@@ -263,7 +289,10 @@ namespace App05MonoGame
 
             spriteBatch.Begin();
 
+
             spriteBatch.Draw(backgroundImage, Vector2.Zero, Color.White);
+
+            restartButton.Draw(spriteBatch);
 
             // Draw asteroids game
 

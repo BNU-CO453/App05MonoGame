@@ -17,6 +17,8 @@ namespace App05MonoGame.Models
     /// </summary>
     public class Sprite: ICloneable
     {
+        #region Properties
+
         // Single Image
         public Texture2D Image { get; set; }
 
@@ -71,9 +73,15 @@ namespace App05MonoGame.Models
         }
         // Variables
 
+        #endregion
+
+        #region Attributes
+
         protected float deltaTime;
 
-        protected bool debug = false;   
+        protected bool debug = false;
+
+        #endregion
 
         /// <summary>
         /// Create a sprite that is active, alive and
