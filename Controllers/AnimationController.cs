@@ -34,7 +34,7 @@ namespace App05MonoGame.Controllers
         private readonly GraphicsDevice graphicsDevice;
 
         // A key image for the base sprite
-        public Texture2D FirstFrame { get; set; }
+       // public Texture2D FirstFrame { get; set; }
 
         // Each element is a row of image frames
         public Texture2D[] SpriteSheets { get; }
@@ -47,12 +47,12 @@ namespace App05MonoGame.Controllers
         /// Animations.
         /// </summary>
         public AnimationController(GraphicsDevice graphics,
-            Texture2D sheet, int rows, int columns)
+            Texture2D spriteSheet, int rows, int columns)
         {
             graphicsDevice = graphics;
-            SpriteSheet = sheet;
+            SpriteSheet = spriteSheet;
 
-            frameHeight = sheet.Height / rows;
+            frameHeight = spriteSheet.Height / rows;
             sheetWidth = SpriteSheet.Width;
             frameWidth = sheetWidth / columns;
             
@@ -66,7 +66,7 @@ namespace App05MonoGame.Controllers
                 CreateSheets();
             else
             {
-                SpriteSheets[0] = sheet;
+                SpriteSheets[0] = spriteSheet;
             }
         }
 
@@ -83,9 +83,6 @@ namespace App05MonoGame.Controllers
                 SpriteSheets[row] = Image;
             }
 
-            FirstFrame = SpriteSheets[0].CreateTexture(
-                graphicsDevice, new Rectangle(0, 0, frameWidth, frameHeight));
-
         }
 
         /// <summary>
@@ -97,9 +94,16 @@ namespace App05MonoGame.Controllers
         {
             if (row > 0 && row <= animationCount)
             {
-                Animation animation = new Animation(
-                    keyName, SpriteSheets[row - 1], frameCount);
+                Animation animation = new Animation
+                    (
+                        graphicsDevice,
+                        keyName, 
+                        SpriteSheets[row - 1], 
+                        frameCount
+                    );
                 
+                
+
                 Animations.Add(keyName, animation);
 
                 if (firstKey == null)
@@ -141,8 +145,6 @@ namespace App05MonoGame.Controllers
                 sprite.PlayAnimation("Right");
             }
             else sprite.PlayAnimation(firstKey);
-            
-            sprite.Image = FirstFrame;
         }
 
     }

@@ -21,6 +21,16 @@ namespace App05MonoGame.Models
 
         public Animation Animation { get; set; }
 
+        public override int Width
+        {
+            get { return Animation.FrameWidth; }
+        }
+
+        public override int Height
+        {
+            get { return Animation.FrameHeight; }
+        }
+
         private Rectangle sourceRectangle;
 
         public AnimatedSprite() : base()

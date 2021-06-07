@@ -1,4 +1,5 @@
-﻿using App05MonoGame.Models;
+﻿using App05MonoGame.Helpers;
+using App05MonoGame.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,7 +25,7 @@ namespace App05MonoGame.Controllers
     /// </authors>
     public class CoinsController
     {
-        private SoundEffect coinEffect;
+        private SoundEffect coinSoundEffect;
 
         private readonly List<AnimatedSprite> Coins;        
 
@@ -38,13 +39,13 @@ namespace App05MonoGame.Controllers
         /// </summary>
         public void CreateCoin(GraphicsDevice graphics, Texture2D coinSheet)
         {
-            coinEffect = SoundController.GetSoundEffect("Coin");
-            Animation animation = new Animation("coin", coinSheet, 8);
+            coinSoundEffect = SoundController.GetSoundEffect("Coin");
+            Animation animation = new Animation(graphics, "coin", coinSheet, 8);
 
             AnimatedSprite coin = new AnimatedSprite()
             {
                 Animation = animation,
-                Image = animation.SetMainFrame(graphics),
+                Image = animation.FirstFrame,
                 Scale = 2.0f,
                 Position = new Vector2(600, 100),
                 Speed = 0,
@@ -59,7 +60,7 @@ namespace App05MonoGame.Controllers
             {
                 if (coin.HasCollided(player) && coin.IsAlive)
                 {
-                    coinEffect.Play();
+                    coinSoundEffect.Play();
 
                     coin.IsActive = false;
                     coin.IsAlive = false;
@@ -70,6 +71,8 @@ namespace App05MonoGame.Controllers
 
         public void Update(GameTime gameTime)
         {
+            // TODO create more coins??
+
             foreach(AnimatedSprite coin in Coins)
             {
                 coin.Update(gameTime);

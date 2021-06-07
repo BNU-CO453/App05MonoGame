@@ -2,12 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace App05MonoGame.Models
 {
-    public class Button : IUpdateable, IDrawable
+    public class Button : IUpdateableInterface, IDrawableInterface
     {
 
         #region Properties
@@ -60,7 +58,7 @@ namespace App05MonoGame.Models
 
         #region Methods
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             var colour = Color.White;
 
@@ -80,7 +78,7 @@ namespace App05MonoGame.Models
             }
         }
 
-        public void Update(GameTime gametTime)
+        public void Update(GameTime gameTime)
         {
             previousMouse = currentMouse;
             currentMouse = Mouse.GetState();
@@ -102,6 +100,12 @@ namespace App05MonoGame.Models
                     }
                 }
             }
+        }
+
+
+        public bool HasCollided(Sprite other)
+        {
+            return false;
         }
 
         #endregion

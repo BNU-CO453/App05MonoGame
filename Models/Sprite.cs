@@ -48,12 +48,12 @@ namespace App05MonoGame.Models
 
         public bool IsActive { get; set; }
 
-        public int Width
+        public virtual int Width
         {
             get { return Image.Width; }
         }
 
-        public int Height
+        public virtual int Height
         {
             get { return Image.Height; }
         }

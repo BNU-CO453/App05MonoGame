@@ -2,8 +2,10 @@
 
 namespace App05MonoGame.Models
 {
-    interface IUpdateable
+    public interface IUpdateableInterface
     {
         public void Update(GameTime gametTime);
+
+        public bool HasCollided(Sprite other);
     }
 }

@@ -7,6 +7,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace App05MonoGame
 {
+    public enum GameStates
+    {
+        Starting,
+        PlayingLevel1,
+        PlayingLevel2,
+        Ending
+    }
+
     /// <summary>
     /// This game creates a variety of sprites as an example.  
     /// There is no game to play yet. The spaceShip and the 
@@ -25,6 +33,10 @@ namespace App05MonoGame
         public const int HD_Height = 720;
         public const int HD_Width = 1280;
 
+        public const string GameName = "Game Name";
+        public const string ModuleName = "BNU CO453 2021";
+        public const string AuthorNames = "Derek & Andrei";
+        public const string AppName = "App05: C# MonoGame";
         #endregion
 
         #region Attribute
@@ -32,6 +44,9 @@ namespace App05MonoGame
         private readonly GraphicsDeviceManager graphicsManager;
         private GraphicsDevice graphicsDevice;
         private SpriteBatch spriteBatch;
+        
+        private GameStates gameState;
+        private string gameStateTitle;
 
         private SpriteFont arialFont;
         private SpriteFont calibriFont;
@@ -39,7 +54,7 @@ namespace App05MonoGame
         private Texture2D backgroundImage;
         private SoundEffect flameEffect;
 
-        private readonly CoinsController coinsController;
+        private CoinsController coinsController;
 
         private PlayerSprite shipSprite;
         private Sprite asteroidSprite;
@@ -49,8 +64,10 @@ namespace App05MonoGame
 
         private Button restartButton;
 
+        // Should be in the main character
+
         private int score;
-        private int health;
+        private int energy;
 
         #endregion
 
@@ -59,16 +76,17 @@ namespace App05MonoGame
             graphicsManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-            coinsController = new CoinsController();
         }
 
         /// <summary>
-        /// Setup the game window size to 720P 1280 x 720 pixels
+        /// Setup the game window size to HD_Height x HD_Width pixels
         /// Simple fixed playing area with no camera or scrolling
         /// </summary>
         protected override void Initialize()
         {
+            gameState = GameStates.Starting;
+            gameStateTitle = "App05 Game";
+
             graphicsManager.PreferredBackBufferWidth = HD_Width;
             graphicsManager.PreferredBackBufferHeight = HD_Height;
 
@@ -77,7 +95,7 @@ namespace App05MonoGame
             graphicsDevice = graphicsManager.GraphicsDevice;
 
             score = 0;
-            health = 100;
+            energy = 100;
 
             base.Initialize();
         }
@@ -123,6 +141,8 @@ namespace App05MonoGame
             SetupAnimatedPlayer();
             SetupEnemy();
 
+            coinsController = new CoinsController();
+
             Texture2D coinSheet = Content.Load<Texture2D>("Actors/coin_copper");
             coinsController.CreateCoin(graphicsDevice, coinSheet);
         }
@@ -141,13 +161,13 @@ namespace App05MonoGame
         private void SetupAsteroid()
         {
             Texture2D asteroid = Content.Load<Texture2D>(
-               "Actors/Stones2Filled_01");
+               "Actors/asteroid-1");
 
             asteroidSprite = new Sprite(asteroid, 1200, 500)
             {
                 Direction = new Vector2(-1, 0),
                 Speed = 100,
-
+                Scale = 0.2f,
                 Rotation = MathHelper.ToRadians(3),
                 RotationSpeed = 2f,
             };
@@ -292,7 +312,7 @@ namespace App05MonoGame
 
             spriteBatch.Draw(backgroundImage, Vector2.Zero, Color.White);
 
-            restartButton.Draw(spriteBatch);
+            restartButton.Draw(spriteBatch, gameTime);
 
             // Draw asteroids game
 
@@ -313,50 +333,48 @@ namespace App05MonoGame
         }
 
         /// <summary>
-        /// Display the name fo the game and the current score
-        /// and health of the player at the top of the screen
+        /// Display the name of the game and the current score
+        /// and status of the player at the top of the screen
         /// </summary>
         public void DrawGameStatus(SpriteBatch spriteBatch)
         {
-            Vector2 topLeft = new Vector2(4, 4);
+            int topMargin = 4;
+            int sideMargin = 50;
+            
+            Vector2 topLeft = new Vector2(sideMargin, topMargin);
             string status = $"Score = {score:##0}";
 
             spriteBatch.DrawString(arialFont, status, topLeft, Color.White);
 
-            string game = "Coin Chase";
-            Vector2 gameSize = arialFont.MeasureString(game);
-            Vector2 topCentre = new Vector2((HD_Width/2 - gameSize.X/2), 4);
-            spriteBatch.DrawString(arialFont, game, topCentre, Color.White);
+            Vector2 gameSize = arialFont.MeasureString(GameName);
+            Vector2 topCentre = new Vector2((HD_Width/2 - gameSize.X/2), topMargin);
+            spriteBatch.DrawString(arialFont, GameName, topCentre, Color.White);
 
-            string healthText = $"Health = {health}%";
+            string healthText = $"Energy = {energy:##0}%";
             Vector2 healthSize = arialFont.MeasureString(healthText);
-            Vector2 topRight = new Vector2(HD_Width - (healthSize.X + 4), 4);
+            Vector2 topRight = new Vector2(HD_Width - (healthSize.X + sideMargin), topMargin);
             spriteBatch.DrawString(arialFont, healthText, topRight, Color.White);
 
         }
 
         /// <summary>
-        /// Display the Module, the authors and the application name
-        /// at the bottom of the screen
+        /// Display identifying information such as the the App,
+        /// the Module, the authors at the bottom of the screen
         /// </summary>
         public void DrawGameFooter(SpriteBatch spriteBatch)
         {
-            int margin = 20;
+            int bottomMargin = 30;
 
-            string names = "Derek & Andrei";
-            string app = "App05: MonogGame";
-            string module = "BNU CO453-2020";
+            Vector2 namesSize = calibriFont.MeasureString(AuthorNames);
+            Vector2 appSize = calibriFont.MeasureString(AppName);
 
-            Vector2 namesSize = calibriFont.MeasureString(names);
-            Vector2 appSize = calibriFont.MeasureString(app);
+            Vector2 bottomCentre = new Vector2((HD_Width - namesSize.X)/ 2, HD_Height - bottomMargin);
+            Vector2 bottomLeft = new Vector2(bottomMargin, HD_Height - bottomMargin);
+            Vector2 bottomRight = new Vector2(HD_Width - appSize.X - bottomMargin, HD_Height - bottomMargin);
 
-            Vector2 bottomCentre = new Vector2((HD_Width - namesSize.X)/ 2, HD_Height - margin);
-            Vector2 bottomLeft = new Vector2(margin, HD_Height - margin);
-            Vector2 bottomRight = new Vector2(HD_Width - appSize.X - margin, HD_Height - margin);
-
-            spriteBatch.DrawString(calibriFont, names, bottomCentre, Color.Yellow);
-            spriteBatch.DrawString(calibriFont, module, bottomLeft, Color.Yellow);
-            spriteBatch.DrawString(calibriFont, app, bottomRight, Color.Yellow);
+            spriteBatch.DrawString(calibriFont, AuthorNames, bottomCentre, Color.Yellow);
+            spriteBatch.DrawString(calibriFont, ModuleName, bottomLeft, Color.Yellow);
+            spriteBatch.DrawString(calibriFont, AppName, bottomRight, Color.Yellow);
 
         }
     }
