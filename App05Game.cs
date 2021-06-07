@@ -40,6 +40,7 @@ namespace App05MonoGame
         public const string ModuleName = "BNU CO453 2021";
         public const string AuthorNames = "Derek & Andrei";
         public const string AppName = "App05: C# MonoGame";
+        
         #endregion
 
         #region Attribute
@@ -62,7 +63,6 @@ namespace App05MonoGame
 
 
         private Texture2D backgroundImage;
-        private SoundEffect flameEffect;
 
         private CoinsController coinsController;
 
@@ -128,7 +128,6 @@ namespace App05MonoGame
 
             SoundController.LoadContent(Content);
             SoundController.PlaySong("Adventure");
-            flameEffect = SoundController.GetSoundEffect("Flame");
 
             // Load Fonts
 
@@ -288,7 +287,7 @@ namespace App05MonoGame
 
             if (shipSprite.HasCollided(asteroidSprite) && shipSprite.IsAlive)
             {
-                flameEffect.Play();
+                SoundController.PlaySoundEffect(Sounds.Collisions);
 
                 shipSprite.IsActive = false;
                 shipSprite.IsAlive = false;

@@ -25,7 +25,6 @@ namespace App05MonoGame.Controllers
     public class CoinsController : IUpdateableInterface, 
         IDrawableInterface, ICollideableInterface
     {
-        private SoundEffect coinSoundEffect;
 
         private readonly List<AnimatedSprite> Coins;        
 
@@ -39,7 +38,7 @@ namespace App05MonoGame.Controllers
         /// </summary>
         public void CreateCoin(GraphicsDevice graphics, Texture2D coinSheet)
         {
-            coinSoundEffect = SoundController.GetSoundEffect("Coin");
+            SoundController.PlaySoundEffect(Sounds.Coins);
             Animation animation = new Animation(graphics, "coin", coinSheet, 8);
 
             AnimatedSprite coin = new AnimatedSprite()
@@ -54,13 +53,17 @@ namespace App05MonoGame.Controllers
             Coins.Add(coin);
         }
 
+        /// <summary>
+        /// If the sprite collides with a coin the coin becomes
+        /// invisible and inactive.  A sound is played
+        /// </summary>
         public void DetectCollision(Sprite sprite)
         {
             foreach (AnimatedSprite coin in Coins)
             {
                 if (coin.HasCollided(sprite) && coin.IsAlive)
                 {
-                    coinSoundEffect.Play();
+                    SoundController.PlaySoundEffect(Sounds.Coins);
 
                     coin.IsActive = false;
                     coin.IsAlive = false;
@@ -71,7 +74,8 @@ namespace App05MonoGame.Controllers
 
         public void Update(GameTime gameTime)
         {
-            // TODO create more coins??
+            // TODO: create more coins every so often??
+            // or recyle collected coins
 
             foreach(AnimatedSprite coin in Coins)
             {

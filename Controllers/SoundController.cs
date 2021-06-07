@@ -7,13 +7,35 @@ using System.Collections.Generic;
 namespace App05MonoGame.Controllers
 {
     /// <summary>
-    /// Sound Controller will manage any sounds or music in the game.
+    /// Add one value for each sound effect
+    /// </summary>
+    public enum Sounds
+    {
+        Coins,
+        Collisions
+    }
+    
+    /// <summary>
+    /// Sound Controller will manage any sound effects 
+    /// or music in the game.
     /// </summary>
     /// <author>
-    /// Andrei Cruceru
+    /// Andrei Cruceru & Derek Peacock
     /// </author>
     public static class SoundController
     {
+        #region constants
+
+        // Dictionary Keys
+
+        public const string SongName = "Adventure";
+        public const string CoinsEffect = "CoinEffect";
+        public const string CollisionEffect = "CollisionEffect";
+
+        #endregion
+
+        // Dictionaries
+
         private static readonly Dictionary<string, Song> Songs =
             new Dictionary<string, Song>();
 
@@ -23,23 +45,33 @@ namespace App05MonoGame.Controllers
         /// <summary>
         /// Load songs and sound effects.
         /// </summary>
-        /// <param name="content"></param>
         public static void LoadContent(ContentManager content)
         {
-            Songs.Add("Adventure",content.Load<Song>("Sounds/Adventures"));            
+            Songs.Add(SongName,content.Load<Song>("Sounds/Adventures"));            
 
-            SoundEffects.Add("Coin", content.Load<SoundEffect>("Sounds/Coins"));
-            SoundEffects.Add("Flame", content.Load<SoundEffect>("Sounds/flame"));
+            SoundEffects.Add(CoinsEffect, content.Load<SoundEffect>("Sounds/Coins"));
+            SoundEffects.Add(CollisionEffect, content.Load<SoundEffect>("Sounds/flame"));
         }
+        
+
         /// <summary>
-        /// Get a sound effect from the collection.
+        /// Play the selected sound effect if it exists in the
+        /// dictionary of sound effects
         /// </summary>
-        /// <param name="effect">A string type key assigned to a sound effect.</param>
-        /// <returns>A SoundEffect object assigned to the string key.</returns>
-        public static SoundEffect GetSoundEffect(string effect)
+        public static void PlaySoundEffect(Sounds sound)
         {
-            return SoundEffects[effect];
+            switch (sound)
+            {
+                case Sounds.Coins:
+                    SoundEffects[CoinsEffect].Play(); break;
+                case Sounds.Collisions:
+                    SoundEffects[CollisionEffect].Play(); break;
+                default:
+                    break;
+            }
         }
+
+
         /// <summary>
         /// Play a song
         /// </summary>
