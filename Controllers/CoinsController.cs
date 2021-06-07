@@ -1,4 +1,4 @@
-﻿using App05MonoGame.Models;
+﻿using App05MonoGame.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;

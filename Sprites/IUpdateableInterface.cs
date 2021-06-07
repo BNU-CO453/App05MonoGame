@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace App05MonoGame.Models
+namespace App05MonoGame.Sprites
 {
     /// <summary>
     /// This method will update any game object that
@@ -8,7 +8,7 @@ namespace App05MonoGame.Models
     /// </summary>
     public interface IUpdateableInterface
     {
-        public void Update(GameTime gametTime);
+        public void Update(GameTime gameTime);
 
     }
 }

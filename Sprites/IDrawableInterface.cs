@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace App05MonoGame.Models
+namespace App05MonoGame.Sprites
 {
     /// <summary>
     /// This method will use the spriteBatch to draw any

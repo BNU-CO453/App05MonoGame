@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
-namespace App05MonoGame.Models
+namespace App05MonoGame.Sprites
 {
     public class Button : IUpdateableInterface, IDrawableInterface
     {

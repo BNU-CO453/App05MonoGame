@@ -1,4 +1,4 @@
-﻿namespace App05MonoGame.Models
+﻿namespace App05MonoGame.Sprites
 {
     /// <summary>
     /// This method checks for collison between the sprite

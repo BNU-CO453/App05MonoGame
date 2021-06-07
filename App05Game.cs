@@ -1,5 +1,5 @@
 ﻿using App05MonoGame.Controllers;
-using App05MonoGame.Models;
+using App05MonoGame.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,6 +22,9 @@ namespace App05MonoGame
     /// the coin and the enemy could be used for a pacman
     /// style game where the player moves around collecting
     /// random coins and the enemy tries to catch the player.
+    /// 
+    /// Last Updated 7th June 2021
+    /// 
     /// </summary>
     /// <authors>
     /// Derek Peacock & Andrei Cruceru
@@ -41,7 +44,7 @@ namespace App05MonoGame
 
         #region Attribute
 
-        // Essesntial XNA objects for Graphics manipularion
+        // Essential XNA objects for Graphics manipulation
 
         private readonly GraphicsDeviceManager graphicsManager;
         private GraphicsDevice graphicsDevice;
@@ -105,9 +108,6 @@ namespace App05MonoGame
 
             graphicsDevice = graphicsManager.GraphicsDevice;
 
-            score = 0;
-            energy = 100;
-
             base.Initialize();
         }
 
@@ -117,6 +117,9 @@ namespace App05MonoGame
         /// </summary>
         protected override void LoadContent()
         {
+            score = 0;
+            energy = 100;
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             backgroundImage = Content.Load<Texture2D>(
                 "backgrounds/green_background720p");
