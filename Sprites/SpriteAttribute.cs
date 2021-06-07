@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace App05MonoGame.Sprites
+﻿namespace App05MonoGame.Sprites
 {
     public class SpriteAttribute
     {
+        public string Name { get; set; }
+
         public int Value { get; set; }
 
         public int MaximumValue { get; }
@@ -41,6 +39,11 @@ namespace App05MonoGame.Sprites
         {
             if(Value > MinimumValue)
                 Value -= Decrement;
+        }
+
+        public void Reset()
+        {
+            Value = startValue;
         }
     }
 }
