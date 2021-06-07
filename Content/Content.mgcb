@@ -205,6 +205,18 @@
 /processorParam:TextureFormat=Color
 /build:backgrounds/green_background720p.png
 
+#begin backgrounds/Space6000x4000.jpeg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:backgrounds/Space6000x4000.jpeg
+
 #begin button2.png
 /importer:TextureImporter
 /processor:TextureProcessor

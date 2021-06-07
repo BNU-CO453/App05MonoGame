@@ -15,7 +15,8 @@ namespace App05MonoGame.Models
     /// Speed of 60 is one pixel per second.  The Sprite can only
     /// move if it is Active and Alive.
     /// </summary>
-    public class Sprite: ICloneable
+    public class Sprite: 
+        ICloneable, IDrawableInterface, IUpdateableInterface
     {
         #region Properties
 
@@ -116,12 +117,12 @@ namespace App05MonoGame.Models
             Position = new Vector2(x, y);
         }
 
-        public bool HasCollided(Sprite other)
+        public bool HasCollided(Sprite otherSprite)
         {
-            if(BoundingBox.Intersects(other.BoundingBox))
+            if(BoundingBox.Intersects(otherSprite.BoundingBox))
             {
                 int margin = 8 * (int)Scale;
-                Rectangle overlap = Rectangle.Intersect(BoundingBox, other.BoundingBox);
+                Rectangle overlap = Rectangle.Intersect(BoundingBox, otherSprite.BoundingBox);
                 if(overlap.Width > margin)
                     return true;
             }
@@ -152,7 +153,7 @@ namespace App05MonoGame.Models
             }
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (debug)
             {

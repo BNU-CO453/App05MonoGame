@@ -30,8 +30,8 @@ namespace App05MonoGame
     {
         #region Constants
 
-        public const int HD_Height = 720;
-        public const int HD_Width = 1280;
+        public const int Game_Height = 720;
+        public const int Game_Width = 1280;
 
         public const string GameName = "Game Name";
         public const string ModuleName = "BNU CO453 2021";
@@ -41,15 +41,22 @@ namespace App05MonoGame
 
         #region Attribute
 
+        // Essesntial XNA objects for Graphics manipularion
+
         private readonly GraphicsDeviceManager graphicsManager;
         private GraphicsDevice graphicsDevice;
         private SpriteBatch spriteBatch;
         
+        // Which state the game is in, starting, playing etc.
+
         private GameStates gameState;
         private string gameStateTitle;
 
+        // Arial large font and calibri small font
+
         private SpriteFont arialFont;
         private SpriteFont calibriFont;
+
 
         private Texture2D backgroundImage;
         private SoundEffect flameEffect;
@@ -71,6 +78,10 @@ namespace App05MonoGame
 
         #endregion
 
+        /// <summary>
+        /// Create a graphics manager and the root for
+        /// all the game assets or content
+        /// </summary>
         public App05Game()
         {
             graphicsManager = new GraphicsDeviceManager(this);
@@ -85,10 +96,10 @@ namespace App05MonoGame
         protected override void Initialize()
         {
             gameState = GameStates.Starting;
-            gameStateTitle = "App05 Game";
+            gameStateTitle = GameName + ": Start Screen";
 
-            graphicsManager.PreferredBackBufferWidth = HD_Width;
-            graphicsManager.PreferredBackBufferHeight = HD_Height;
+            graphicsManager.PreferredBackBufferWidth = Game_Width;
+            graphicsManager.PreferredBackBufferHeight = Game_Height;
 
             graphicsManager.ApplyChanges();
 
@@ -294,7 +305,7 @@ namespace App05MonoGame
             }
 
             coinsController.Update(gameTime);
-            coinsController.HasCollided(playerSprite);
+            coinsController.DetectCollision(playerSprite);
 
             base.Update(gameTime);
         }
@@ -316,14 +327,14 @@ namespace App05MonoGame
 
             // Draw asteroids game
 
-            shipSprite.Draw(spriteBatch);
-            asteroidSprite.Draw(spriteBatch);
+            shipSprite.Draw(spriteBatch, gameTime);
+            asteroidSprite.Draw(spriteBatch, gameTime);
 
             // Draw Chase game
 
-            playerSprite.Draw(spriteBatch);
-            coinsController.Draw(spriteBatch);
-            enemySprite.Draw(spriteBatch);
+            playerSprite.Draw(spriteBatch, gameTime);
+            coinsController.Draw(spriteBatch, gameTime);
+            enemySprite.Draw(spriteBatch, gameTime);
 
             DrawGameStatus(spriteBatch);
             DrawGameFooter(spriteBatch);
@@ -347,12 +358,12 @@ namespace App05MonoGame
             spriteBatch.DrawString(arialFont, status, topLeft, Color.White);
 
             Vector2 gameSize = arialFont.MeasureString(GameName);
-            Vector2 topCentre = new Vector2((HD_Width/2 - gameSize.X/2), topMargin);
+            Vector2 topCentre = new Vector2((Game_Width/2 - gameSize.X/2), topMargin);
             spriteBatch.DrawString(arialFont, GameName, topCentre, Color.White);
 
             string healthText = $"Energy = {energy:##0}%";
             Vector2 healthSize = arialFont.MeasureString(healthText);
-            Vector2 topRight = new Vector2(HD_Width - (healthSize.X + sideMargin), topMargin);
+            Vector2 topRight = new Vector2(Game_Width - (healthSize.X + sideMargin), topMargin);
             spriteBatch.DrawString(arialFont, healthText, topRight, Color.White);
 
         }
@@ -368,9 +379,9 @@ namespace App05MonoGame
             Vector2 namesSize = calibriFont.MeasureString(AuthorNames);
             Vector2 appSize = calibriFont.MeasureString(AppName);
 
-            Vector2 bottomCentre = new Vector2((HD_Width - namesSize.X)/ 2, HD_Height - bottomMargin);
-            Vector2 bottomLeft = new Vector2(bottomMargin, HD_Height - bottomMargin);
-            Vector2 bottomRight = new Vector2(HD_Width - appSize.X - bottomMargin, HD_Height - bottomMargin);
+            Vector2 bottomCentre = new Vector2((Game_Width - namesSize.X)/ 2, Game_Height - bottomMargin);
+            Vector2 bottomLeft = new Vector2(bottomMargin, Game_Height - bottomMargin);
+            Vector2 bottomRight = new Vector2(Game_Width - appSize.X - bottomMargin, Game_Height - bottomMargin);
 
             spriteBatch.DrawString(calibriFont, AuthorNames, bottomCentre, Color.Yellow);
             spriteBatch.DrawString(calibriFont, ModuleName, bottomLeft, Color.Yellow);

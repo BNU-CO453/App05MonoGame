@@ -1,5 +1,4 @@
-﻿using App05MonoGame.Helpers;
-using App05MonoGame.Models;
+﻿using App05MonoGame.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,7 +22,8 @@ namespace App05MonoGame.Controllers
     /// <authors>
     /// Derek Peacock & Andrei Cruceru
     /// </authors>
-    public class CoinsController
+    public class CoinsController : IUpdateableInterface, 
+        IDrawableInterface, ICollideableInterface
     {
         private SoundEffect coinSoundEffect;
 
@@ -54,11 +54,11 @@ namespace App05MonoGame.Controllers
             Coins.Add(coin);
         }
 
-        public void HasCollided(AnimatedPlayer player)
+        public void DetectCollision(Sprite sprite)
         {
             foreach (AnimatedSprite coin in Coins)
             {
-                if (coin.HasCollided(player) && coin.IsAlive)
+                if (coin.HasCollided(sprite) && coin.IsAlive)
                 {
                     coinSoundEffect.Play();
 
@@ -79,11 +79,11 @@ namespace App05MonoGame.Controllers
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (AnimatedSprite coin in Coins)
             {
-                coin.Draw(spriteBatch);
+                coin.Draw(spriteBatch, gameTime);
             }
         }
     }

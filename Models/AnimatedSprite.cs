@@ -53,13 +53,13 @@ namespace App05MonoGame.Models
 
             if (Animation != null && IsActive)
             {
-                sourceRectangle = Animation.Update(gameTime);
+                sourceRectangle = Animation.UpdateFrame(gameTime);
             }
 
             base.Update(gameTime);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             // SourceRectangle should never be empty now as Animation.Update will always 
             //return a frame.
@@ -73,7 +73,7 @@ namespace App05MonoGame.Models
                          Scale, SpriteEffects.None, 1);
             }
             else  
-                base.Draw(spriteBatch); 
+                base.Draw(spriteBatch, gameTime); 
         }
     }
 }

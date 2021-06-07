@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace App05MonoGame.Models
 {
+    /// <summary>
+    /// This method will use the spriteBatch to draw any
+    /// game object that is visible
+    /// </summary>
     public interface IDrawableInterface
     {
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime);

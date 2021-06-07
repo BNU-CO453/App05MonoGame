@@ -66,7 +66,7 @@ namespace App05MonoGame.Controllers
         }
 
 
-        public Rectangle Update(GameTime gameTime)
+        public Rectangle UpdateFrame(GameTime gameTime)
         {            
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
