@@ -72,6 +72,10 @@ namespace App05MonoGame.Sprites
                 );
             }
         }
+
+        public SpriteAttribute Score { get; }
+        public SpriteAttribute Energy { get; }
+
         // Variables
 
         #endregion
@@ -104,7 +108,10 @@ namespace App05MonoGame.Sprites
 
             Scale = 1;
             Rotation = 0;
-            RotationSpeed = 0;            
+            RotationSpeed = 0;
+
+            Score = new SpriteAttribute(0, 100, 0);
+            Energy = new SpriteAttribute(0, 100, 100);
         }
 
         /// <summary>
