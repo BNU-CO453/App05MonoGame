@@ -138,12 +138,15 @@ namespace App05MonoGame
                 case GameStates.Starting:
                     startScreen.Update(gameTime); 
                     break;
+                
+                // Coins Game
                 case GameStates.PlayingLevel1:
                     if (coinsScreen == null)
                         coinsScreen = new CoinsScreen(this);
                     coinsScreen.Update(gameTime);
                     break;
                 
+                // Asteroids Game
                 case GameStates.PlayingLevel2:
                     if (asteroidsScreen == null)
                         asteroidsScreen = new AsteroidsScreen(this);

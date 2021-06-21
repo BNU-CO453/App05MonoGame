@@ -92,6 +92,15 @@ namespace App05MonoGame.Screens
         private void PauseGame(object sender, System.EventArgs e)
         {
             game.Paused = !(game.Paused);
+            
+            if(game.Paused)
+            {
+                SoundController.PauseSong();
+            }
+            else 
+            {
+                SoundController.ResumeSong();
+            }
         }
 
         /// <summary>

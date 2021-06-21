@@ -1,6 +1,5 @@
 ﻿using App05MonoGame.Sprites;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -25,21 +24,34 @@ namespace App05MonoGame.Controllers
     public class CoinsController : IUpdateableInterface, 
         IDrawableInterface, ICollideableInterface
     {
+        private App05Game game;
+
+        private Texture2D coinSheet;
 
         private readonly List<AnimatedSprite> Coins;        
 
-        public CoinsController()
+        /// <summary>
+        /// Create a new list of coins with one coin
+        /// </summary>
+        public CoinsController(App05Game game)
         {
+            this.game = game;
             Coins = new List<AnimatedSprite>();
+
+            coinSheet = game.Content.Load<Texture2D>("Actors/coin_copper");
+            
+            CreateCoin();
         }
+
         /// <summary>
         /// Create an animated sprite of a copper coin
         /// which could be collected by the player for a score
         /// </summary>
-        public void CreateCoin(GraphicsDevice graphics, Texture2D coinSheet)
+        public void CreateCoin()
         {
             SoundController.PlaySoundEffect(Sounds.Coins);
-            Animation animation = new Animation(graphics, "coin", coinSheet, 8);
+
+            Animation animation = new Animation(game.Graphics, "coin", coinSheet, 8);
 
             AnimatedSprite coin = new AnimatedSprite()
             {

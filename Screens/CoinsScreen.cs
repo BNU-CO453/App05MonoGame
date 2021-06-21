@@ -53,12 +53,12 @@ namespace App05MonoGame.Screens
             SetupCoins();
         }
 
+        /// <summary>
+        /// Create a controller for coins with one coin
+        /// </summary>
         private void SetupCoins()
         {
-            coinsController = new CoinsController();
-
-            Texture2D coinSheet = game.Content.Load<Texture2D>("Actors/coin_copper");
-            coinsController.CreateCoin(game.Graphics, coinSheet);
+            coinsController = new CoinsController(game);
         }
 
         /// <summary>
@@ -122,6 +122,15 @@ namespace App05MonoGame.Screens
         private void PauseGame(object sender, System.EventArgs e)
         {
              game.Paused = !(game.Paused);
+
+            if (game.Paused)
+            {
+                SoundController.PauseSong();
+            }
+            else
+            {
+                SoundController.ResumeSong();
+            }
         }
 
         /// <summary>
