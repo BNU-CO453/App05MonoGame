@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace App05MonoGame.Controllers
 {
+    /// <summary>
+    /// Could be used for three different coloured coins
+    /// </summary>
     public enum CoinColours
     {
         copper = 100,
@@ -26,19 +29,19 @@ namespace App05MonoGame.Controllers
     {
         private App05Game game;
 
-        private Texture2D coinSheet;
+        private Texture2D copperCoinSheet;
 
         private readonly List<AnimatedSprite> Coins;        
 
         /// <summary>
-        /// Create a new list of coins with one coin
+        /// Create a new list of coins with one copper coin
         /// </summary>
         public CoinsController(App05Game game)
         {
             this.game = game;
             Coins = new List<AnimatedSprite>();
 
-            coinSheet = game.Content.Load<Texture2D>("Actors/coin_copper");
+            copperCoinSheet = game.Content.Load<Texture2D>("Actors/coin_copper");
             
             CreateCoin();
         }
@@ -51,7 +54,8 @@ namespace App05MonoGame.Controllers
         {
             SoundController.PlaySoundEffect(Sounds.Coins);
 
-            Animation animation = new Animation(game.Graphics, "coin", coinSheet, 8);
+            Animation animation = new Animation(
+                game.Graphics, "coin", copperCoinSheet, 8);
 
             AnimatedSprite coin = new AnimatedSprite()
             {
